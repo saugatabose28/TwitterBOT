@@ -1,0 +1,38 @@
+------------------------------Setting up THe AWS------------
+->Services->S3->creaate bucket(tick off BLOCK PUBLIC ACCESS option)->COPY ARN
+->IAM dashboard->Users->ADd User->Add Permission(awslambdaexecute, administratoraccess,inline policy)->COPY THE AWS ACCESS KEY AND SECRET KEY
+->IAM dashboard->ROles->CReate ROle(for LAMBDA FUNCTION)->ATtach policy(awslambdaexecute, administratoraccess,inline policy({
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "ExampleStmt",
+            "Action": [
+                "s3:"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::{<name of bucket>}/"
+            ]
+        }
+    ]
+}))-> COPY THE ARN
+----------------------Serverless INstall/setup----------
+sudo npm install serverless -g OR install serverless --save-dev
+---------------------Project related COmmands--------
+serverless create --template aws-python3 --name <service_name> --path <service directory>
+cd serverlessBOTTesting/serverlessBOTTesting1/
+pip3 install -r requirements.txt
+python3 handler.py #just to confirm whether any python related compilation error in or not
+sls plugin install -n serverless-python-requirements
+export AWS_ACCESS_KEY_ID=AKIA3473ZGS2WPDBYSGZ
+export AWS_SECRET_ACCESS_KEY=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
+serverless deploy
+serverless invoke -f <function_name> --log
+--------------Basic changes in the code----------
+handler.py->MAIN CODINGS WILL BE PERFORMED HERE BY CREATING FUNCTION
+serverless.yaml->
+----->service <service_name>
+----->iamRoleStatements->Resources(paste the arn from s3 bucket)
+----->functions->Role->paste the arn from ROles
+
+
